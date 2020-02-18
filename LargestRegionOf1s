@@ -1,0 +1,40 @@
+class Area
+{
+    static int count;
+    static int findAreaUtil(int n, int m, int g[][], boolean vis[][])
+    {
+        int result = 0;
+        
+        for(int i =0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(g[i][j]==1 && !vis[i][j]){
+                    count = 1;
+                    DFS(i,j,g,vis);
+                    result=Math.max(count,result);
+                }
+            }
+        }
+        
+        return result;
+        
+    }
+    
+    static void DFS(int i ,int j , int g[][] , boolean vis[][]){
+        
+        int rowNmbr[] = {-1,-1,-1,0,0,1,1,1};
+        int colNmbr[] = {-1,0,1,-1,1,-1,0,1};
+        
+        vis[i][j] = true;
+        
+        for(int k=0;k<8;k++){
+            if(isSafe(i+rowNmbr[k],j+colNmbr[k],g,vis)){
+                count++;
+                DFS(i+rowNmbr[k],j+colNmbr[k],g,vis);
+            }
+        }
+    }
+    
+    static boolean isSafe(int i, int j, int g[][], boolean vis[][]){
+        return (i>=0 && i<g.length && j>=0 && j<g[0].length && g[i][j]==1 && !vis[i][j]);
+    }
+}
